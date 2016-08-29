@@ -7,14 +7,15 @@ module.exports = {
     var username = req.body.username,
         password = req.body.password;
 
-    var findUser = Q.nbind(User.findOne, User);
-    findUser({username: username})
+    // var findUser = Q.nbind(User.findOne, User);
+    User.findByUsername(username)
       .then(function (user) {
         if (!user) {
           next(new Error('User does not exist'));
         } else {
-          return user.comparePasswords(password)
+          return User.comparePassword(user.password_hash, password)
             .then(function(foundUser) {
+              console.log("foundUser: ", foundUser)
               if (foundUser) {
                 var token = jwt.encode(user, 'secret');
                 res.json({token: token});
@@ -24,7 +25,7 @@ module.exports = {
             });
         }
       })
-      .fail(function (error) {
+      .catch(function (error) {
         next(error);
       });
   },
@@ -35,29 +36,31 @@ module.exports = {
         create,
         newUser;
 
-    var findOne = Q.nbind(User.findOne, User);
+    // var findOne = Q.nbind(User.findOne, User);
 
     // check to see if user already exists
-    findOne({username: username})
+    User.findByUsername({username: username})
       .then(function(user) {
         if (user) {
           next(new Error('User already exist!'));
         } else {
           // make a new user if not one
-          create = Q.nbind(User.create, User);
+          // create = Q.nbind(User.create, User);
           newUser = {
             username: username,
             password: password
           };
-          return create(newUser);
+          return User.create(newUser);
         }
       })
       .then(function (user) {
         // create token to send back for auth
         var token = jwt.encode(user, 'secret');
+        // res.status(201).send(JSON.stringify({token: token}));
         res.json({token: token});
       })
-      .fail(function (error) {
+      .catch(function (error) {
+        console.log("error in User.findByUsername: ", error);
         next(error);
       });
   },
@@ -72,8 +75,8 @@ module.exports = {
       next(new Error('No token'));
     } else {
       var user = jwt.decode(token, 'secret');
-      var findUser = Q.nbind(User.findOne, User);
-      findUser({username: user.username})
+      // var findUser = Q.nbind(User.findOne, User);
+      User.findByUsername({username: user.username})
         .then(function (foundUser) {
           if (foundUser) {
             res.status(200).send();
@@ -81,7 +84,7 @@ module.exports = {
             res.status(401).send();
           }
         })
-        .fail(function (error) {
+        .catch(function (error) {
           next(error);
         });
     }

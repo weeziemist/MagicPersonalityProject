@@ -1,62 +1,62 @@
-var mongoose = require('mongoose'),
-    bcrypt   = require('bcrypt-nodejs'),
-    Q        = require('q'),
-    SALT_WORK_FACTOR  = 10;
+var db = require('../db');
+var bcrypt = require('bcrypt-nodejs');
 
 
-var UserSchema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true
-  },
+var User = module.exports
 
-  password: {
-    type: String,
-    required: true
-  },
-  salt: String
-});
+User.findByUsername = function (username) {
 
-UserSchema.methods.comparePasswords = function (candidatePassword) {
-  var defer = Q.defer();
-  var savedPassword = this.password;
-  bcrypt.compare(candidatePassword, savedPassword, function (err, isMatch) {
-    if (err) {
-      defer.reject(err);
-    } else {
-      defer.resolve(isMatch);
-    }
-  });
-  return defer.promise;
-};
-
-UserSchema.pre('save', function (next) {
-  var user = this;
-
-  // only hash the password if it has been modified (or is new)
-  if (!user.isModified('password')) {
-    return next();
+  return db.collection('users').findOne({ username: username })
+    .then(translateId)
   }
 
-  // generate a salt
-  bcrypt.genSalt(SALT_WORK_FACTOR, function(err, salt) {
-    if (err) {
-      return next(err);
-    }
+User.findById = function (id) {
 
-    // hash the password along with our new salt
-    bcrypt.hash(user.password, salt, null, function(err, hash) {
-      if (err) {
-        return next(err);
-      }
+  return db.collection('users').find({ _id: db.ObjectId(id) })
+    .then(translateId)
+  }
 
-      // override the cleartext password with the hashed one
-      user.password = hash;
-      user.salt = salt;
-      next();
+User.create = function (incomingAttrs) {
+
+  // Copy object to avoid mutation
+  var attrs = Object.assign({}, incomingAttrs);
+
+  return hashPassword(attrs.password)
+    .then(function (passwordHash) {
+
+      attrs.password_hash = passwordHash
+      delete attrs.password
+      return db.collection('users').insert(attrs);
     });
-  });
-});
+  };
 
-module.exports = mongoose.model('users', UserSchema);
+User.comparePassword = function (passwordHashFromDatabase, attemptedPassword) {
+
+  return new Promise(function (resolve, reject) {
+
+    bcrypt.compare(attemptedPassword, passwordHashFromDatabase, function(err, res) {
+      if (err) reject(err)
+      else     resolve(res)
+    });
+  })
+};
+
+function hashPassword (password) {
+
+  return new Promise(function (resolve, reject) {
+
+    bcrypt.hash(password, null, null, function(err, hash) {
+      if (err) reject(err)
+      else     resolve(hash)
+    });
+  })
+};
+
+
+function translateId (user) {
+  if ( user ) {
+    user.id = user._id
+    delete user._id
+  }
+  return user
+}
