@@ -1,5 +1,5 @@
 {
-  "name": "shortly-angular",
+  "name": "MP",
   "version": "0.0.0",
   "description": "",
   "main": "app.js",
@@ -21,8 +21,8 @@
     "body-parser": "^1.4.3",
     "express": "^4.4.5",
     "jwt-simple": "^0.2.0",
-    "mongoose": "^4.1.0",
     "morgan": "^1.1.1",
+    "node-twitter-api": "^1.7.4",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
     "promised-mongo": "makersquare/promised-mongo",

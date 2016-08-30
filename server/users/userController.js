@@ -4,63 +4,12 @@ var User = require('./userModel.js'),
 
 module.exports = {
   signin: function (req, res, next) {
-    var username = req.body.username,
-        password = req.body.password;
-
-    // var findUser = Q.nbind(User.findOne, User);
-    User.findByUsername(username)
-      .then(function (user) {
-        if (!user) {
-          next(new Error('User does not exist'));
-        } else {
-          return User.comparePassword(user.password_hash, password)
-            .then(function(foundUser) {
-              console.log("foundUser: ", foundUser)
-              if (foundUser) {
-                var token = jwt.encode(user, 'secret');
-                res.json({token: token});
-              } else {
-                return next(new Error('No user'));
-              }
-            });
-        }
+    console.log("i am in userController")
+    User.requestToken()
+      .then(function (requestToken) {
+        res.send(requestToken);
       })
       .catch(function (error) {
-        next(error);
-      });
-  },
-
-  signup: function (req, res, next) {
-    var username  = req.body.username,
-        password  = req.body.password,
-        create,
-        newUser;
-
-    // var findOne = Q.nbind(User.findOne, User);
-
-    // check to see if user already exists
-    User.findByUsername({username: username})
-      .then(function(user) {
-        if (user) {
-          next(new Error('User already exist!'));
-        } else {
-          // make a new user if not one
-          // create = Q.nbind(User.create, User);
-          newUser = {
-            username: username,
-            password: password
-          };
-          return User.create(newUser);
-        }
-      })
-      .then(function (user) {
-        // create token to send back for auth
-        var token = jwt.encode(user, 'secret');
-        // res.status(201).send(JSON.stringify({token: token}));
-        res.json({token: token});
-      })
-      .catch(function (error) {
-        console.log("error in User.findByUsername: ", error);
         next(error);
       });
   },
@@ -88,5 +37,15 @@ module.exports = {
           next(error);
         });
     }
-  }
+  },
+
+  getAccessToken: function (req, res, next) {
+    User.accessToken(req.body.oauth_verifier)
+      .then(function (accessToken) {
+        res.send(accessToken);
+      })
+      .catch(function (error) {
+        next(error);
+      });
+  },
 };
