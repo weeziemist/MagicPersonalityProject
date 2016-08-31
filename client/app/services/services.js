@@ -1,5 +1,34 @@
 angular.module('MP.services', [])
 
+.factory('Wat', function ($http) {
+
+  console.log("this is wat service")
+  function getWatsonDataTest(){
+    return $http({
+      method: 'GET',
+      url:'api/wat/watsonTest'
+    }).then((resp) => {
+        return resp.data;
+    })
+  };
+
+  function getWatsonData(content){
+    return $http({
+      method: 'POST',
+      url:'api/wat/watson',
+      data: content
+    }).then((resp) => {
+        return resp.data;
+    })
+  };
+
+   return {
+    getWatsonDataTest: getWatsonDataTest,
+    getWatsonData: getWatsonData
+  };
+
+})
+
   // Your code here
 .factory('Links', function ($http) {
 
