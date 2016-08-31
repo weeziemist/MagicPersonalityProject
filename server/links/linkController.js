@@ -22,7 +22,7 @@ module.exports = {
 
   allLinks: function (req, res, next) {
   // var findAll = Q.nbind(Link.find, Link);
-
+  console.log('getting links...')
   Link.all()
     .then(function (links) {
       res.json(links);

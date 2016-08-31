@@ -3,6 +3,7 @@ angular.module('MP', [
   'MP.links',
   'MP.auth',
   'MP.loadingPage',
+  'MP.watson',
   'ngRoute'
 ])
 .config(function($routeProvider, $httpProvider) {
@@ -16,10 +17,15 @@ angular.module('MP', [
       templateUrl: 'app/auth/loadingPage.html',
       controller: 'loadingPageController'
     })
-    // Your code here
+    
     .when('/links', {
       templateUrl: 'app/links/links.html',
       controller: 'LinksController'
+    })
+
+    .when('/watson', {
+      templateUrl: 'app/playground/index.html',
+      controller: 'watController'
     })
 
     // We add our $httpInterceptor into the array
