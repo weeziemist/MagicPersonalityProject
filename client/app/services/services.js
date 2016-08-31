@@ -1,5 +1,34 @@
 angular.module('MP.services', [])
 
+.factory('Wat', function ($http) {
+
+  console.log("this is wat service")
+  function getWatsonDataTest(){
+    return $http({
+      method: 'GET',
+      url:'api/wat/watsonTest'
+    }).then((resp) => {
+        return resp.data;
+    })
+  };
+
+  function getWatsonData(content){
+    return $http({
+      method: 'POST',
+      url:'api/wat/watson',
+      data: content
+    }).then((resp) => {
+        return resp.data;
+    })
+  };
+
+   return {
+    getWatsonDataTest: getWatsonDataTest,
+    getWatsonData: getWatsonData
+  };
+
+})
+
   // Your code here
 .factory('Links', function ($http) {
 
@@ -84,10 +113,26 @@ angular.module('MP.services', [])
     })
   };
 
+  var getUserTimeline = function () {
+    console.log('I am in getUserTimeline ');
+    return $http({
+      method: 'GET',
+      url: '/api/users/timeline'
+    })
+    .then(function (resp) {
+      console.log('resp.data in services:', resp.data)
+      return resp.data;
+    })
+    .catch(function(error){
+      return error;
+    })
+  };
+
   return {
     signin: signin,
     isAuth: isAuth,
     signout: signout,
-    getAccessToken: getAccessToken
+    getAccessToken: getAccessToken,
+    getUserTimeline: getUserTimeline
   };
 });

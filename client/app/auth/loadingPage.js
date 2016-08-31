@@ -9,8 +9,17 @@ angular.module('MP.loadingPage', [])
     	var oauth_verifier = array[2];
     	Auth.getAccessToken({oauth_token : oauth_token, oauth_verifier : oauth_verifier})
     		.then(function(resp){
-                $location.path('/links');
+                console.log("got getAccessToken")
+                return resp;
     		})
+            .then(function(resp){
+                console.log("About to call getUserTimeline")
+                Auth.getUserTimeline()
+                    .then(function(data){
+                        console.log("Data->loadingPageController: ",data);
+                         $location.path('/links');
+                    })
+            })
     		.catch(function(error){
     			console.log('error in loadingPageController: ',error);
                 $location.path('/');
