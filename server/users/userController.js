@@ -40,6 +40,7 @@ module.exports = {
   },
 
   getAccessToken: function (req, res, next) {
+    console.log("i am in userController getAccessToken")
     User.accessToken(req.body.oauth_verifier)
       .then(function (accessToken) {
         res.send(accessToken);

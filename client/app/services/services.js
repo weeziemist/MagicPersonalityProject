@@ -47,13 +47,14 @@ angular.module('MP.services', [])
   // after you signin/signup open devtools, click resources,
   // then localStorage and you'll see your token from the server
   var signin = function (user) {
-    console.log("I am in Auth signin")
+    console.log("I am in services signin")
     return $http({
       method: 'GET',
       url: '/api/users/request-token',
     })
     .then(function (resp) {
-      $location.path('/loggingin');
+      console.log('resp in signin services : ',resp)
+      // $location.path('/loggingin');
       return resp.data;
     });
   };
@@ -75,9 +76,12 @@ angular.module('MP.services', [])
       data: data
     })
     .then(function (resp) {
-      $location.path('/loggingin');
+      // $location.path('/loggingin');
       return resp.data;
-    });
+    })
+    .catch(function(error){
+      return error;
+    })
   };
 
   return {

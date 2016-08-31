@@ -1,6 +1,6 @@
 angular.module('MP.links', [])
 
-.controller('LinksController', function ($scope, Links) {
+.controller('LinksController', function ($scope, $location, Links) {
   $scope.data = {};
 
   $scope.getLinks = function (){
@@ -12,4 +12,11 @@ angular.module('MP.links', [])
     })
   };
   $scope.getLinks();
+
+  $scope.logout = function (){
+    // TODO: the code below seems like a hack, try to implement this in a better way
+    var signInUrl = location.protocol + '//' + "localhost"  + 
+                    location.host.slice(location.host.lastIndexOf(':'));
+    window.location = signInUrl;
+  };
 });
