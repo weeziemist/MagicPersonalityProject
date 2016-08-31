@@ -8,4 +8,3 @@ module.exports = {
     consumerSecret: 'xxxxxxxxxxxxxxxxxxx',
     callback: 'http://xxxxxxxxxxxxx/#/loggingin'
 };
-
