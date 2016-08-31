@@ -13,6 +13,7 @@ angular.module('MP.loadingPage', [])
     		})
     		.catch(function(error){
     			console.log('error in loadingPageController: ',error);
+                $location.path('/');
     		});
 	});
 
