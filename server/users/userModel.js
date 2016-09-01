@@ -122,7 +122,7 @@ User.timeLine = function () {
                 console.log("error in User.timeLine in userModel : ",error);
                 reject(err);
             } else {
-                console.log("data in User.timeLine in userModel: ",data);
+                // console.log("data in User.timeLine in userModel: ",data);
                 resolve(data);
             }
         }

@@ -457,3 +457,8 @@ ______________________________________*/
   opacity: 0;
   transition-delay: 1s;
 }
+
+.three{
+  margin: 0;
+   width: 100%; height: 100%
+}
