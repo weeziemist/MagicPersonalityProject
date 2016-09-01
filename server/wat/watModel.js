@@ -5,8 +5,8 @@ var PersonalityInsightsV2 = require('watson-developer-cloud/personality-insights
 
 var personality_insights = new PersonalityInsightsV2({
   //you get this for your bluemix app
-  username: '76976e94-42d7-4408-bc7c-e6e63ac918a7',
-  password: 'JSgtQQZXC30X'
+  username: 'xxxxxxxxxxxxxxxxxxxxx',
+  password: 'xxxxxxxxxxx'
 
 });
 
