@@ -10,10 +10,11 @@ module.exports = function (app, express) {
   var watRouter  = express.Router();
 
   app.use(morgan('dev'));
-  app.use(bodyParser.urlencoded({extended: true}));
-  app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({extended: true, limit: '5mb'}));
+  app.use(bodyParser.json({limit: '5mb'}));
   app.use(express.static(__dirname + '/../../client'));
 
+  console.log('I am in middleware')
 
   app.use('/api/users', userRouter); // use user router for all user request
 

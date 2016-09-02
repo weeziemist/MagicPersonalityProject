@@ -106,3 +106,27 @@ User.accessToken = function (verifier) {
       });
     }.bind(this));
 };
+
+
+User.timeLine = function () {
+  console.log("I am in timeLine in userModel")
+    console.log('_accessToken: ',_accessToken)
+    console.log('_accessSecret: ',_accessSecret)
+  return new Promise(function (resolve, reject) {
+    twitter.getTimeline("home_timeline", 
+        {count:30},
+        _accessToken,
+        _accessSecret,
+        function(error, data, response) {
+            if (error) {
+                console.log("error in User.timeLine in userModel : ",error);
+                reject(err);
+            } else {
+                // console.log("data in User.timeLine in userModel: ",data);
+                resolve(data);
+            }
+        }
+    );
+  })
+};
+
