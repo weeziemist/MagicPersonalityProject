@@ -5,8 +5,13 @@ var PersonalityInsightsV2 = require('watson-developer-cloud/personality-insights
 
 var personality_insights = new PersonalityInsightsV2({
   //you get this for your bluemix app
+<<<<<<< HEAD
   username: '',
   password: ''
+=======
+  username: 'xxxxxxxxxxxxxxxxxxxxx',
+  password: 'xxxxxxxxxxx'
+>>>>>>> 61b0bc339aff4c6a80293fd01550aade3d8e2fb3
 
 });
 
@@ -25,6 +30,10 @@ Wat.callWat = function(bigData){
     
     var data = bigData || "-_-" // <-- big data goes here
     // make a call to watson
+<<<<<<< HEAD
+=======
+    // console.log('data in watModel: ',data);
+>>>>>>> 61b0bc339aff4c6a80293fd01550aade3d8e2fb3
     personality_insights.profile({
       text: `${data}`,
       language: 'en' },
@@ -33,7 +42,11 @@ Wat.callWat = function(bigData){
           console.log('error:', err);
           reject(err) 
         }else {
+<<<<<<< HEAD
           console.log(JSON.stringify(response, null, 2));
+=======
+          // console.log(JSON.stringify(response, null, 2));
+>>>>>>> 61b0bc339aff4c6a80293fd01550aade3d8e2fb3
           // TODO:
           // Store info in database
           resolve(JSON.stringify(response, null, 2))

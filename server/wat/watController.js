@@ -6,6 +6,7 @@ module.exports = {
  
     return Wat.callWat(req.body.data)
       .then(function (watResponse) {
+        console.log('watResponse in watController: ',watResponse)
         res.send(watResponse);
       })
       .catch(function (error) {

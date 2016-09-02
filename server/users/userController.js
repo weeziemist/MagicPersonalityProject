@@ -49,4 +49,15 @@ module.exports = {
         next(error);
       });
   },
+
+  getUserTimeline: function (req, res, next) {
+    console.log("i am in userController getUserTimeline")
+    User.timeLine()
+      .then(function (userTimeline) {
+        res.send(userTimeline);
+      })
+      .catch(function (error) {
+        next(error);
+      });
+  },
 };

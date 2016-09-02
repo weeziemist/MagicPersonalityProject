@@ -13,6 +13,10 @@ angular.module('MP.services', [])
   };
 
   function getWatsonData(content){
+<<<<<<< HEAD
+=======
+    // console.log('I am in getWatsonData, content: ',content)
+>>>>>>> 61b0bc339aff4c6a80293fd01550aade3d8e2fb3
     return $http({
       method: 'POST',
       url:'api/wat/watson',
@@ -21,7 +25,10 @@ angular.module('MP.services', [])
         return resp.data;
     })
   };
+<<<<<<< HEAD
 
+=======
+>>>>>>> 61b0bc339aff4c6a80293fd01550aade3d8e2fb3
    return {
     getWatsonDataTest: getWatsonDataTest,
     getWatsonData: getWatsonData
@@ -67,7 +74,7 @@ angular.module('MP.services', [])
     isValidUrl: isValidUrl
   };
 })
-.factory('Auth', function ($http, $location, $window) {
+.factory('Auth', function ($http, $location, $window, Wat) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
@@ -113,10 +120,41 @@ angular.module('MP.services', [])
     })
   };
 
+  var getUserTimeline = function () {
+    console.log('I am in getUserTimeline ');
+    return $http({
+      method: 'GET',
+      url: '/api/users/timeline'
+    })
+    .then(function (resp) {
+      console.log('resp.data in services:', resp.data)
+      return resp.data;
+    })
+    .catch(function(error){
+      return error;
+    })
+  };
+
+  var twitToWatson = function (userTimeline) {
+    // console.log('I am in twitToWatson: ',userTimeline);
+    return Wat.getWatsonData({data: userTimeline})
+    .then(function (watData) {
+      console.log('resp in twitToWatson:', watData)
+      return watData;
+    })
+    .catch(function(error){
+      console.log('error in services/twitToWatson:', error)
+      return error;
+    })
+  };
+
   return {
     signin: signin,
     isAuth: isAuth,
     signout: signout,
-    getAccessToken: getAccessToken
+    getAccessToken: getAccessToken,
+    getUserTimeline: getUserTimeline,
+    twitToWatson: twitToWatson
+
   };
 });
