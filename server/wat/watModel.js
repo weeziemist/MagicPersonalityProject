@@ -7,7 +7,6 @@ var personality_insights = new PersonalityInsightsV2({
   //you get this for your bluemix app
   password: '',
   username: ''
-
 });
 
 // to initiate the call to the server do a post request 
@@ -47,7 +46,7 @@ Wat.callWat = function(bigData) {
 };
 
 // make a fake call to watson
-Wat.callWatTest = function(bigData) {
+Wat.callWatTest = function() {
 
   return new Promise(function(resolve, reject) {
     // watson object
@@ -72,8 +71,9 @@ function watAnalyze(data) {
   var personality = data.tree.children[0].children[0].children
     .forEach(function(trait) {
       primary[trait.name] = trait.percentage;
-      trait.children.forEach(function(secondaryTrait) {
-        secondary[secondaryTrait.name] = secondaryTrait.percentage
+      trait.children
+      .forEach(function(secondaryTrait) {
+        secondary[secondaryTrait.name] = secondaryTrait.percentage;
       })
     })
   // make arrays
