@@ -113,7 +113,7 @@ function watAnalyze(data) {
       'Openness': {
 
         'likes':['Practical', 'Traditional','Conventional','Most comfortable in familiar surroundings'],
-        'dislikes': ['mosquitos', 'colliflower', 'clowns'],
+        'dislikes': ['mosquitos', 'Cauliflower', 'clowns'],
         // [link, description]
         'links': [
           ['http://esciencenews.com/articles/2016/08/20/europes.oldest.known.living.inhabitant', 'Europes oldest known living inhabitant'],
@@ -125,7 +125,7 @@ function watAnalyze(data) {
       'Conscientiousness': {
 
         'likes':[],
-        'dislikes': ['mosquitos', 'colliflower', 'clowns'],
+        'dislikes': ['mosquitos', 'Cauliflower', 'clowns'],
         'links': [
           ['https://www.buzzfeed.com/jasminnahar/things-youll-relate-to-if-youre-sensible-af?utm_term=.xdGAEd508o#.udmVDW7EO8', 'things you do'],
           ['http://www.forbes.com/sites/theyec/2012/11/26/7-web-productivity-tools-thatll-maximize-your-efficiency/#3a4328551587', 'Maximize your efficiency by using these tools'],
@@ -137,7 +137,7 @@ function watAnalyze(data) {
       'Extraversion': {
 
         'likes':[],
-        'dislikes': ['mosquitos', 'colliflower', 'clowns'],
+        'dislikes': ['mosquitos', 'Cauliflower', 'clowns'],
         'links': [
           ['https://www.amazon.com/Listening-Martial-Art-Master-Success-ebook/dp/B016LDGR74#nav-subnav', 'bridge the gap between you and fellow introverts, read this beautiful book'],
           []
@@ -148,7 +148,7 @@ function watAnalyze(data) {
       'Agreeableness': {
 
         'likes':[],
-        'dislikes': ['mosquitos', 'colliflower', 'clowns'],
+        'dislikes': ['mosquitos', 'Cauliflower', 'clowns'],
         'links': [
           ['https://en.wikipedia.org/wiki/Izumo-taisha', 'exposure to different religions and beliefe systems can helps put things in perspective'],
           []
@@ -160,7 +160,7 @@ function watAnalyze(data) {
       'Emotional range': {
 
         'likes':[],
-        'dislikes': ['mosquitos', 'colliflower', 'clowns'],
+        'dislikes': ['mosquitos', 'Cauliflower', 'clowns'],
         'links': [
           ['https://plus.google.com/u/0/collection/EG1lCB', 'You might enjoy this collection of abandoned houses'],
           ['https://www.psychologytoday.com/blog/design-your-path/201305/10-traits-emotionally-resilient-people', 'More on traits for your type']
