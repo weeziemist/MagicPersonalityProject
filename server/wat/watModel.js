@@ -13,7 +13,10 @@ var personality_insights = new PersonalityInsightsV2({
 // to initiate the call to the server do a post request 
 // to http://192.168.1.102:3000/api/wat/watson
 
+
 // the data is curently sent in json format {"data": "the massive text bloob"}
+
+
 
 
 var Wat = module.exports;
@@ -39,6 +42,7 @@ Wat.callWat = function(bigData){
           // Store info in database
           var watObj = watAnalyze(JSON.stringify(response));
           resolve(watObj)
+
         }
     });
 
@@ -58,9 +62,23 @@ Wat.callWatTest = function(bigData){
 
     resolve(data2)
 
+
+};
+
+Wat.callWatTest = function(bigData){
+
+  return new Promise(function(resolve, reject) {
+    
+    var data = bigData || "-_-" // <-- big data goes here
+
+    // make a fake call to watson
+    resolve(data)
+
+
   })
 
 };
+
 
 // this should be somewhere else //> 
 function watAnalyze(data) {
