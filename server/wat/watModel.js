@@ -65,20 +65,6 @@ Wat.callWatTest = function(bigData){
   });
 };
 
-Wat.callWatTest = function(bigData){
-
-  return new Promise(function(resolve, reject) {
-    
-    var data = bigData || "-_-" // <-- big data goes here
-
-    // make a fake call to watson
-    resolve(data)
-
-
-  })
-
-};
-
 
 // this should be somewhere else //> 
 function watAnalyze(data) {
