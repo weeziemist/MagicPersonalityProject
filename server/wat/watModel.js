@@ -62,7 +62,7 @@ Wat.callWatTest = function(bigData){
 
     resolve(data2)
 
-
+  });
 };
 
 Wat.callWatTest = function(bigData){
