@@ -47,7 +47,7 @@ Wat.callWat = function(bigData) {
 };
 
 // make a fake call to watson
-Wat.callWatTest = function(bigData) {
+Wat.callWatTest = function() {
 
   return new Promise(function(resolve, reject) {
     // watson object
@@ -72,8 +72,9 @@ function watAnalyze(data) {
   var personality = data.tree.children[0].children[0].children
     .forEach(function(trait) {
       primary[trait.name] = trait.percentage;
-      trait.children.forEach(function(secondaryTrait) {
-        secondary[secondaryTrait.name] = secondaryTrait.percentage
+      trait.children
+      .forEach(function(secondaryTrait) {
+        secondary[secondaryTrait.name] = secondaryTrait.percentage;
       })
     })
   // make arrays
@@ -168,7 +169,7 @@ function watAnalyze(data) {
   console.log(strongSecondaryTraits, 'strong secondary traits')
 
   //this part need better documentaition or some goodol refactoring into obj or multiArrs
-  theMagicAI.allTraits = [dominatingSecondaryTrait, dominatingSecondaryTrait,
+  theMagicAI.allTraits = [dominatingPrimaryTrait, dominatingSecondaryTrait,
     primaryArray, strongSecondaryTraits
   ];
 
