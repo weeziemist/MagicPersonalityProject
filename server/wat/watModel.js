@@ -168,7 +168,7 @@ function watAnalyze(data) {
   console.log(strongSecondaryTraits, 'strong secondary traits')
 
   //this part need better documentaition or some goodol refactoring into obj or multiArrs
-  theMagicAI.allTraits = [dominatingSecondaryTrait, dominatingSecondaryTrait,
+  theMagicAI.allTraits = [dominatingPrimaryTrait, dominatingSecondaryTrait,
     primaryArray, strongSecondaryTraits
   ];
 
