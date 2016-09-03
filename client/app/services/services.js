@@ -35,8 +35,7 @@ angular.module('MP.services', [])
 .factory('Wat', function ($http) {
 
   var watData = {data: ''};
-
-  console.log("this is wat service")
+  
   function getWatsonDataTest(){
     return $http({
       method: 'GET',
@@ -61,8 +60,8 @@ angular.module('MP.services', [])
 
   function retrieveWatsonData (){
     return watData.data;
-
   }
+  
    return {
     getWatsonDataTest : getWatsonDataTest,
     getWatsonData     : getWatsonData,

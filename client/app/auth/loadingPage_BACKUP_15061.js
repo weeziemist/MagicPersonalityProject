@@ -24,14 +24,7 @@ angular.module('MP.loadingPage', [])
                 return Auth.twitToWatson(JSON.stringify(userTimeline));
             })
             .then(function(watData){
-<<<<<<< HEAD
-            // HERE WE GET THE DATA BACK FROM WATSON.....
-            // CURRENTLY THE USER IS DIRECTED TO THE LINKS PAGE..                
-                console.log('watData from watson: ',watData);
-                console.log('watData json: ',JSON.stringify(watData));
-=======
 
->>>>>>> 907fc7806d58125a6de2ae87919e24ca697fb8ef
                  $location.path('/links');
             })
     		.catch(function(error){

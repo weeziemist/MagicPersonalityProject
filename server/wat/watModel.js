@@ -5,8 +5,8 @@ var PersonalityInsightsV2 = require('watson-developer-cloud/personality-insights
 
 var personality_insights = new PersonalityInsightsV2({
   //you get this for your bluemix app
-  username: 'xxxxxxxxxxxxxxxxxxxxx',
-  password: 'xxxxxxxxxxx'
+  // username: 'xxxxxxxxxxxxxxxxxxxxx',
+  // password: 'xxxxxxxxxxx'
 });
 
 // to initiate the call to the server do a post request 
