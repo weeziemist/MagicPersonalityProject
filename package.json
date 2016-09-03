@@ -21,7 +21,7 @@
     "body-parser": "^1.4.3",
     "express": "^4.4.5",
     "jwt-simple": "^0.2.0",
-	"mongodb": "^2.2.9",
+	  "mongodb": "^2.2.9",
     "morgan": "^1.1.1",
     "node-twitter-api": "^1.7.4",
     "passport": "^0.2.0",

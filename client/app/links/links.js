@@ -1,26 +1,20 @@
 angular.module('MP.links', [])
 
-.controller('LinksController', function ($scope, $location, $sce, Links, YouTube) {
+.controller('LinksController', function ($scope, $location, $sce, YouTube, Wat) {
   $scope.data = {};
-  $scope.urls =[];
+  $scope.youTubeurls =[];
+  $scope.descPara = '';
+  $scope.likes =[];
+  $scope.dislikes =[];
+  $scope.links =[];
 
   var queries = {
     'Openness'          : 'Blues, Jazz, Classical, folk',
     'Conscientiousness' : 'Country, Religious, Pop',
     'Extraversion'      : 'Rap, Hip-Hop, Funk, Electronic, Dance',
     'Agreeableness'     : 'Country, Religious, Pop',
-    'Neuroticism'       : 'Blues, Jazz, Classical, folk'
+    'Emotional range'   : 'Blues, Jazz, Classical, folk'
   }
-
-  $scope.getLinks = function (){
-
-    Links.getLinks().then((info) =>{
-      // console.log("links back: ", info);
-      $scope.data.links = info;
-      $scope.code = info.code;
-    })
-  };
-  // $scope.getLinks();
 
   $scope.logout = function (){
     // TODO: the code below seems like a hack, try to implement this in a better way
@@ -31,16 +25,30 @@ angular.module('MP.links', [])
 
   $scope.getYouTubeData = function (){
 
-    console.log('1. I am in links-> getYouTubeData, queries[YouTube.getTrait] ',queries[YouTube.getTrait()])
-
-    var query = {query:queries[YouTube.getTrait()], numResults:3};
+    var watData = Wat.retrieveWatsonData();
+    console.log('watData : ',watData);
+    var big5 = watData.allTraits[2];
+    var maxPercent = 0;
+    var saveId;
+    for (var i = 0; i < big5.length; i++) {
+      if (big5[i][1] > maxPercent){
+          maxPercent = big5[i][1];
+          saveId = i;
+      }
+    }
+    var strongTrait = big5[saveId][0];
+    $scope.descPara = watData.primaryTraits[strongTrait].descParagraf;
+    $scope.likes = watData.primaryTraits[strongTrait].likes;
+    $scope.dislikes = watData.primaryTraits[strongTrait].dislikes;
+    $scope.links = watData.primaryTraits[strongTrait].links[0];
+    var query = {query:queries[strongTrait], numResults:3};
     YouTube.getYouTubeData(query)
     .then((videosData) =>{
       for (var i = 0; i < videosData.items.length; i++) {
         var tempUrl = `https://www.youtube.com/embed/${videosData.items[i].id.videoId}?autoplay`;
-        $scope.urls.push($sce.trustAsResourceUrl(tempUrl));
+        $scope.youTubeurls.push($sce.trustAsResourceUrl(tempUrl));
       }
-      console.log("youtube data back $scope.urls: ", $scope.urls);
+      console.log("youtube data back $scope.urls: ", $scope.youTubeurls);
 
     })
   };
