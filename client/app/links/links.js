@@ -1,17 +1,20 @@
 angular.module('MP.links', [])
 
-.controller('LinksController', function ($scope, $location, Links) {
+.controller('LinksController', function ($scope, $location, $sce, YouTube, Wat) {
   $scope.data = {};
+  $scope.youTubeurls =[];
+  $scope.descPara = '';
+  $scope.likes =[];
+  $scope.dislikes =[];
+  $scope.links =[];
 
-  $scope.getLinks = function (){
-
-    Links.getLinks().then((info) =>{
-      // console.log("links back: ", info);
-      $scope.data.links = info;
-      $scope.code = info.code;
-    })
-  };
-  $scope.getLinks();
+  var queries = {
+    'Openness'          : 'Blues, Jazz, Classical, folk',
+    'Conscientiousness' : 'Country, Religious, Pop',
+    'Extraversion'      : 'Rap, Hip-Hop, Funk, Electronic, Dance',
+    'Agreeableness'     : 'Country, Religious, Pop',
+    'Emotional range'   : 'Blues, Jazz, Classical, folk'
+  }
 
   $scope.logout = function (){
     // TODO: the code below seems like a hack, try to implement this in a better way
@@ -19,4 +22,36 @@ angular.module('MP.links', [])
                     location.host.slice(location.host.lastIndexOf(':'));
     window.location = signInUrl;
   };
+
+  $scope.getYouTubeData = function (){
+
+    var watData = Wat.retrieveWatsonData();
+    console.log('watData : ',watData);
+    var big5 = watData.allTraits[2];
+    var maxPercent = 0;
+    var saveId;
+    for (var i = 0; i < big5.length; i++) {
+      if (big5[i][1] > maxPercent){
+          maxPercent = big5[i][1];
+          saveId = i;
+      }
+    }
+    var strongTrait = big5[saveId][0];
+    $scope.descPara = watData.primaryTraits[strongTrait].descParagraf;
+    $scope.likes = watData.primaryTraits[strongTrait].likes;
+    $scope.dislikes = watData.primaryTraits[strongTrait].dislikes;
+    $scope.links = watData.primaryTraits[strongTrait].links[0];
+    var query = {query:queries[strongTrait], numResults:3};
+    YouTube.getYouTubeData(query)
+    .then((videosData) =>{
+      for (var i = 0; i < videosData.items.length; i++) {
+        var tempUrl = `https://www.youtube.com/embed/${videosData.items[i].id.videoId}?autoplay`;
+        $scope.youTubeurls.push($sce.trustAsResourceUrl(tempUrl));
+      }
+      console.log("youtube data back $scope.urls: ", $scope.youTubeurls);
+
+    })
+  };
+
+  $scope.getYouTubeData();
 });

@@ -158,7 +158,6 @@ input[type=url]:focus {
   text-transform: uppercase;
   width: 250px;
   position: absolute;
-  top: 53%;
   left: 43%;
 }
 
