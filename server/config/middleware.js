@@ -5,18 +5,20 @@ var morgan      = require('morgan'), // used for logging incoming request
 
 module.exports = function (app, express) {
   // Express 4 allows us to use multiple routers with their own configurations
-  var userRouter = express.Router();
-  var linkRouter = express.Router();
-  var watRouter  = express.Router();
+  var userRouter     = express.Router();
+  var linkRouter     = express.Router();
+  var watRouter      = express.Router();
+  var youtubeRouter  = express.Router();
+
 
   app.use(morgan('dev'));
   app.use(bodyParser.urlencoded({extended: true, limit: '5mb'}));
   app.use(bodyParser.json({limit: '5mb'}));
   app.use(express.static(__dirname + '/../../client'));
 
-  console.log('I am in middleware')
-
   app.use('/api/users', userRouter); // use user router for all user request
+
+  app.use('/api/youtube', youtubeRouter);
 
   // authentication middleware used to decode token and made available on the request
   //app.use('/api/links', helpers.decode);
@@ -31,4 +33,5 @@ module.exports = function (app, express) {
   require('../users/userRoutes.js')(userRouter);
   require('../links/linkRoutes.js')(linkRouter);
   require('../wat/watRoutes.js')(watRouter);
+  require('../youtube/youTubeRoutes.js')(youtubeRouter);
 };

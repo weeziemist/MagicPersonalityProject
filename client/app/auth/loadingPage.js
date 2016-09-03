@@ -1,8 +1,10 @@
 angular.module('MP.loadingPage', [])
 
-.controller('loadingPageController', function ($scope, $window, $location, Auth) {
+.controller('loadingPageController', function ($scope, $window, $location, Auth, YouTube) {
 
     var randomtext = ``;
+
+    // var watsonData ={};
 
 	$scope.$on('$viewContentLoaded', function() {
 		var url = window.location.search.substring(1);
@@ -24,16 +26,54 @@ angular.module('MP.loadingPage', [])
             .then(function(watData){
             // HERE WE GET THE DATA BACK FROM WATSON.....
             // CURRENTLY THE USER IS DIRECTED TO THE LINKS PAGE..                
-                console.log('watData from watson: ',watData);
+                console.log('watData : ',watData);
+
+                var big5 = watData.allTraits[2];
+                console.log('big5 : ',big5);
+                // determine the strongest trait in BIG5
+                var maxPercent = 0;
+                var saveId;
+                for (var i = 0; i < big5.length; i++) {
+                    if (big5[i][1] > maxPercent){
+                        maxPercent = big5[i][1];
+                        saveId = i;
+                    }
+                }
+
+                strongTrait = big5[saveId][0];
+                YouTube.setTrait(strongTrait);
+                console.log("strongTrait: ",strongTrait)
+
                  $location.path('/links');
             })
     		.catch(function(error){
     			console.log('error in loadingPageController: ',error);
                 var signInUrl = location.protocol + '//' + "localhost"  + 
                             location.host.slice(location.host.lastIndexOf(':'));
-                window.location = signInUrl;
+                // window.location = signInUrl;
     		});
 	});
+
+    // $scope.displayData(){
+
+    //     // Iliya will be working in this function???
+    //     // use watsonData.data ???
+
+    //     //??????
+
+    //     //preference
+    //     //personality type
+    //     //food
+        
+
+    //     //song 
+
+
+
+
+    //     $location.path('/links');
+
+    // }
 
 });
 

@@ -1,5 +1,37 @@
 angular.module('MP.services', [])
 
+
+.factory('YouTube', function ($http) {
+
+  var personalityTrait = {trail: ''};
+
+  function getYouTubeData(query){
+    console.log('2. I am in services-> getYouTubeData ')
+    return $http({
+      method: 'POST',
+      url:'api/youtube/request-videos',
+      data: query
+    }).then((videosData) => {
+        return videosData.data;
+    })
+  };
+
+  function setTrait (trait){
+    personalityTrait.trait = trait;
+
+  }
+
+  function getTrait (trait){
+    return personalityTrait.trait;
+
+  }
+   return {
+    getYouTubeData: getYouTubeData,
+    setTrait: setTrait,
+    getTrait: getTrait
+  };
+
+})
 .factory('Wat', function ($http) {
 
   console.log("this is wat service")
@@ -67,7 +99,7 @@ angular.module('MP.services', [])
     isValidUrl: isValidUrl
   };
 })
-.factory('Auth', function ($http, $location, $window, Wat) {
+.factory('Auth', function ($http, $location, $window, Wat, YouTube) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
