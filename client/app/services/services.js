@@ -13,7 +13,7 @@ angular.module('MP.services', [])
   };
 
   function getWatsonData(content){
-
+    // console.log('I am in getWatsonData, content: ',content)
     return $http({
       method: 'POST',
       url:'api/wat/watson',
@@ -22,7 +22,6 @@ angular.module('MP.services', [])
         return resp.data;
     })
   };
-  
    return {
     getWatsonDataTest: getWatsonDataTest,
     getWatsonData: getWatsonData

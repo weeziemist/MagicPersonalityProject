@@ -26,7 +26,6 @@ angular.module('MP.loadingPage', [])
             // CURRENTLY THE USER IS DIRECTED TO THE LINKS PAGE..                
                 console.log('watData from watson: ',watData);
                 console.log('watData json: ',JSON.stringify(watData));
-
                  $location.path('/links');
             })
     		.catch(function(error){
