@@ -5,8 +5,8 @@ var PersonalityInsightsV2 = require('watson-developer-cloud/personality-insights
 
 var personality_insights = new PersonalityInsightsV2({
   //you get this for your bluemix app
-  password: '',
-  username: ''
+  username: 'xxxxxxxxxxxxxxxxxxxxx',
+  password: 'xxxxxxxxxxx'
 });
 
 // to initiate the call to the server do a post request 
@@ -24,6 +24,7 @@ Wat.callWat = function(bigData) {
     var data = bigData || "-_-" // <-- big data goes here
 
     // make a call to watson
+    // console.log('data in watModel: ',data);
     personality_insights.profile({
         text: `${data}`,
         language: 'en'
@@ -31,7 +32,7 @@ Wat.callWat = function(bigData) {
       function(err, response) {
         if (err) {
           console.log('error:', err);
-          reject(err)
+          reject(err) 
         } else {
           // console.log(JSON.stringify(response, null, 2));
           // TODO:
