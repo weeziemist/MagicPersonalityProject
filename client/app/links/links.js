@@ -49,7 +49,6 @@ angular.module('MP.links', [])
         $scope.youTubeurls.push($sce.trustAsResourceUrl(tempUrl));
       }
       console.log("youtube data back $scope.urls: ", $scope.youTubeurls);
-
     })
   };
 
