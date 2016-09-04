@@ -1,6 +1,40 @@
 angular.module('MP.services', [])
 
+
+.factory('YouTube', function ($http) {
+
+  var personalityTrait = {trail: ''};
+
+  function getYouTubeData(query){
+    console.log('2. I am in services-> getYouTubeData ')
+    return $http({
+      method: 'POST',
+      url:'api/youtube/request-videos',
+      data: query
+    }).then((videosData) => {
+        return videosData.data;
+    })
+  };
+
+  function setTrait (trait){
+    personalityTrait.trait = trait;
+
+  }
+
+  function getTrait (trait){
+    return personalityTrait.trait;
+
+  }
+   return {
+    getYouTubeData: getYouTubeData,
+    setTrait: setTrait,
+    getTrait: getTrait
+  };
+
+})
 .factory('Wat', function ($http) {
+
+  var watData = {data: ''};
 
   console.log("this is wat service")
   function getWatsonDataTest(){
@@ -8,6 +42,7 @@ angular.module('MP.services', [])
       method: 'GET',
       url:'api/wat/watsonTest'
     }).then((resp) => {
+        watData.data = resp.data;
         return resp.data;
     })
   };
@@ -19,55 +54,23 @@ angular.module('MP.services', [])
       url:'api/wat/watson',
       data: content
     }).then((resp) => {
+        watData.data = resp.data;
         return resp.data;
     })
   };
+
+  function retrieveWatsonData (){
+    return watData.data;
+
+  }
    return {
-    getWatsonDataTest: getWatsonDataTest,
-    getWatsonData: getWatsonData
+    getWatsonDataTest : getWatsonDataTest,
+    getWatsonData     : getWatsonData,
+    retrieveWatsonData: retrieveWatsonData
   };
 
 })
-
-  // Your code here
-.factory('Links', function ($http) {
-
-  function getLinks(){
-    return $http({
-      method: 'GET',
-      url:'/api/links'
-    }).then((resp) => {
-        return resp.data;
-    })
-  }
-
-  var rValidUrl = /^(?!mailto:)(?:(?:https?|ftp):\/\/)?(?:\S+(?::\S*)?@)?(?:(?:(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[0-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))|localhost)(?::\d{2,5})?(?:\/[^\s]*)?$/i;
-
-  function isValidUrl(url) {
-    return url.match(rValidUrl);
-  }
-
-  function addLink(data){
-    return $http({
-      method: 'POST',
-      url:'/api/links',
-      data: data
-    }).then((resp) => {
-      console.log("this is resp!",resp)
-        return resp;
-    }).catch((resp) =>{
-      console.log("this is resp!",resp)
-      return resp;
-    })
-  }
-
-  return {
-    getLinks: getLinks,
-    addLink: addLink,
-    isValidUrl: isValidUrl
-  };
-})
-.factory('Auth', function ($http, $location, $window, Wat) {
+.factory('Auth', function ($http, $location, $window, Wat, YouTube) {
   // Don't touch this Auth service!!!
   // it is responsible for authenticating our user
   // by exchanging the user's username and password
@@ -128,9 +131,10 @@ angular.module('MP.services', [])
     })
   };
 
-  var twitToWatson = function (userTimeline) {
+  var twitToWatson = function (userTimeline, screen_name) {
     // console.log('I am in twitToWatson: ',userTimeline);
-    return Wat.getWatsonData({data: userTimeline})
+    return Wat.getWatsonData({data: userTimeline, screen_name: screen_name})
+    // return Wat.getWatsonDataTest()
     .then(function (watData) {
       console.log('resp in twitToWatson:', watData)
       return watData;

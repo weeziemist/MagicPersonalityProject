@@ -5,8 +5,8 @@ var PersonalityInsightsV2 = require('watson-developer-cloud/personality-insights
 
 var personality_insights = new PersonalityInsightsV2({
   //you get this for your bluemix app
-  username: 'xxxxxxxxxxxxxxxxxxxxx',
-  password: 'xxxxxxxxxxx'
+  username: 'xxxxxxxxxxxxx',
+  password: 'xxxxxxxxxxxxx'
 });
 
 // to initiate the call to the server do a post request 
@@ -17,6 +17,7 @@ var personality_insights = new PersonalityInsightsV2({
 var Wat = module.exports;
 
 // use callWat(data) to get data from watson 
+<<<<<<< HEAD
 Wat.callWat = function(bigData) {
 
   return new Promise(function(resolve, reject) {
@@ -44,6 +45,49 @@ Wat.callWat = function(bigData) {
       });
 
   })
+=======
+Wat.callWat = function(bigData, screen_name) {
+  // check to see if data alreay exists for this user...
+  return db.collection('watsonData').findOne({screen_name:screen_name})
+    .then(function(response){
+      if (response){//user info exists
+        console.log('response in watModel: ',response);
+        return response.wat_data;
+      }
+      else{
+        return new Promise(function(resolve, reject) {
+
+          var data = bigData || "-_-" // <-- big data goes here
+
+          // make a call to watson
+          // console.log('data in watModel: ',data);
+          personality_insights.profile({
+              text: `${data}`,
+              language: 'en'
+            },
+            function(err, response) {
+              if (err) {
+                console.log('error:', err);
+                reject(err) 
+              } else {
+                // console.log(JSON.stringify(response, null, 2));
+                // TODO:
+                // Store info in database
+                ///how to make a data base call here???
+                var watObj = watAnalyze(JSON.stringify(response));
+                resolve(watObj)
+
+              }
+            });
+
+        })
+
+      }
+
+    })
+
+
+>>>>>>> 0cc992d7b9973bad2015d33a2c19105982288adb
 };
 
 // make a fake call to watson
@@ -98,6 +142,61 @@ function watAnalyze(data) {
     return (prev[1] > next[1]) ? prev : next;
   })
 
+<<<<<<< HEAD
+=======
+Wat.saveDb = function(watResponse, screen_name) {
+
+  var attrs={screen_name:screen_name , wat_data:watResponse};
+  return db.collection('watsonData').insert(attrs)
+    .then(function(resp){
+
+      return watResponse;
+    });
+};
+
+
+// this function should be somewhere else //> 
+function watAnalyze(data) {
+
+  data = JSON.parse(data);
+  // obj to contain the specifics for each of the personality type
+  var theMagicAI = {}
+  // objs and coresponding arrs of primary and secondary traits
+  var primary = {};
+  var secondary = {};
+  var primaryArray = [];
+  var secondaryArray = [];
+  // get traits
+  var personality = data.tree.children[0].children[0].children
+    .forEach(function(trait) {
+      primary[trait.name] = trait.percentage;
+      trait.children
+      .forEach(function(secondaryTrait) {
+        secondary[secondaryTrait.name] = secondaryTrait.percentage;
+      })
+    })
+  // make arrays
+  for (var traits in primary) {
+    primaryArray.push([traits, primary[traits]]);
+  }
+
+  for (var trait in secondary) {
+    secondaryArray.push([trait, secondary[trait]]);
+  }
+  // all secondary traits that pass the bar
+  var strongSecondaryTraits = secondaryArray.filter(function(item) {
+      return item[1] > 0.6;
+    })
+    //...
+  var dominatingPrimaryTrait = primaryArray.reduce(function(prev, next) {
+      return (prev > next) ? prev : next;
+    })
+    //...
+  var dominatingSecondaryTrait = secondaryArray.reduce(function(prev, next) {
+    return (prev[1] > next[1]) ? prev : next;
+  })
+
+>>>>>>> 0cc992d7b9973bad2015d33a2c19105982288adb
   theMagicAI.primaryTraits = {
 
     'Openness': {
