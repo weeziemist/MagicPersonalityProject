@@ -27,17 +27,15 @@ User.findById = function (id) {
     .then(translateId)
   }
 
-User.create = function (incomingAttrs) {
+User.createSession = function (userId, screenName) {
 
-  // Copy object to avoid mutation
-  var attrs = Object.assign({}, incomingAttrs);
+  var newSession = {sessionId: _accessToken,
+               userId: userId,
+               screenName: screenName};
 
-  return hashPassword(attrs.password)
-    .then(function (passwordHash) {
-
-      attrs.password_hash = passwordHash
-      delete attrs.password
-      return db.collection('users').insert(attrs);
+   return db.collection('sessions').insert(newSession)
+    .then(function () {
+      return newSession;
     });
   };
 
@@ -98,7 +96,7 @@ User.accessToken = function (verifier) {
           reject(err);
         }
         else {
-          console.log('User.accessToken accessToken: ',accessToken)
+          console.log('User.accessToken accessToken: ',accessToken);
           _accessToken = accessToken;
           _accessSecret = accessSecret;
           resolve(accessToken);
@@ -130,3 +128,12 @@ User.timeLine = function () {
   })
 };
 
+User.verifyCredentials = function () {
+
+    return new Promise(function(resolve, reject) {
+      twitter.verifyCredentials(_accessToken, _accessSecret, function(err, user) {
+        if (err) reject(err);
+        else resolve(user);
+      });
+    }.bind(this));
+};

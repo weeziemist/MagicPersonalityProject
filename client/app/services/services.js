@@ -35,7 +35,7 @@ angular.module('MP.services', [])
 .factory('Wat', function ($http) {
 
   var watData = {data: ''};
-  
+
   function getWatsonDataTest(){
     return $http({
       method: 'GET',
@@ -60,8 +60,9 @@ angular.module('MP.services', [])
 
   function retrieveWatsonData (){
     return watData.data;
+
   }
-  
+
    return {
     getWatsonDataTest : getWatsonDataTest,
     getWatsonData     : getWatsonData,
@@ -130,9 +131,9 @@ angular.module('MP.services', [])
     })
   };
 
-  var twitToWatson = function (userTimeline) {
+  var twitToWatson = function (userTimeline, screen_name) {
     // console.log('I am in twitToWatson: ',userTimeline);
-    return Wat.getWatsonData({data: userTimeline})
+    return Wat.getWatsonData({data: userTimeline, screen_name: screen_name})
     // return Wat.getWatsonDataTest()
     .then(function (watData) {
       console.log('resp in twitToWatson:', watData)

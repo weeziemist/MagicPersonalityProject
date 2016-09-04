@@ -3,6 +3,9 @@ var User = require('./userModel.js'),
     jwt  = require('jwt-simple');
 
 module.exports = {
+
+  userAccessToken: '',
+
   signin: function (req, res, next) {
     console.log("i am in userController")
     User.requestToken()
@@ -43,7 +46,21 @@ module.exports = {
     console.log("i am in userController getAccessToken")
     User.accessToken(req.body.oauth_verifier)
       .then(function (accessToken) {
-        res.send(accessToken);
+        //user credentials have been verified by twitter 
+        // res.cookie('sessionId', accessToken);
+        // res.send(accessToken);
+        return accessToken
+      })
+      .then(function(accessToken){
+        this.userAccessToken = accessToken;
+        return User.verifyCredentials();
+      })
+      .then(function(user){
+        return User.createSession(user.id, user.screen_name);
+      })
+      .then(function(session){
+        res.cookie('sessionId', session.sessionId);
+        res.send(session);
       })
       .catch(function (error) {
         next(error);
